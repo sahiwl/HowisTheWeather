@@ -9,7 +9,7 @@ function App() {
 
   return (
     <>
-      <div className="bg-blue-300">
+      <div className="bg-gradient-to-r from-slate-200 to-blue-500 h-screen w-screen flex justify-center items-center">
         <WeatherApp />
       </div>
     </>
