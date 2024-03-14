@@ -1,7 +1,6 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
+
 import WeatherApp from './components/WeatherApp'
 
 function App() {
@@ -9,7 +8,8 @@ function App() {
 
   return (
     <>
-      <div className="bg-gradient-to-r from-slate-200 to-blue-500 h-screen w-screen flex justify-center items-center">
+    {/* write the below tailwind class in css in body tag  */}
+      <div className="bg-gradient-to-r from-teal-950 via-slate-700 to-slate-950 h-screen w-screen flex justify-center items-center font-Quicksand">
         <WeatherApp />
       </div>
     </>
