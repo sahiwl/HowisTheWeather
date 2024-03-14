@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import Loading from "./Loading";
 
 const WeatherApp = () => {
   const [city, setCity] = useState("");
@@ -8,6 +9,7 @@ const WeatherApp = () => {
   const currentTime = new Date().toLocaleTimeString([], {
     hour: "2-digit",
     minute: "2-digit",
+    second: "2-digit",
   });
   // console.log(currentTime);
   const fetchApiData = async () => {
@@ -21,7 +23,7 @@ const WeatherApp = () => {
       if (error.response && error.response.status === 404) {
         //catches 404 error
         console.clear(); //clears console if 404 status code error occurs
-        alert("Please enter a correct cityname 🌍");
+        alert("Please enter a correct city/town 🌍");
       }
       // console.log(error);
     }
@@ -60,118 +62,120 @@ const WeatherApp = () => {
 
   return (
     <>
-      <div className=" h-[460px] w-[600px]">
+      <div className="rounded-lg backdrop-blur-3xl bg-white/5 h-[460px] w-[500px]">
         <div className="flex justify-center items-center font-quicksand h-full grid grid-rows-4">
           {/* <label htmlFor="">Temp here: </label> */}
           <form onSubmit={submitHandler}>
-            <div className="grid row-span-1 bg--300">
-              
+            <div className="grid row-span-1 bg--300 grid-cols-4">
               <input
                 type="text"
-                placeholder="Enter location"
+                placeholder="Enter a city/town"
                 value={city}
                 onChange={inputHandler}
-                className="placeholder:text-gray-300 text-white text-black px-4 py-3 rounded-lg bg-white/5 backdrop-3xl"
+                className="placeholder:text-gray-300 text-white px-4 py-3 rounded-l-lg focus:outline-none bg-white/5 backdrop-3xl col-span-3"
               ></input>
-              <button type="submit" className="outline">
-                Submit
+              <button
+                type="submit"
+                className="placeholder:text-gray-300 text-white px-4 py-3 rounded-r-lg bg-white/5 backdrop-3xl"
+              >
+                Search
               </button>
             </div>
           </form>
 
-          <div className="grid row-span-3 bg-yellow-300 rounded-lg h-72 w-[29rem]">
-              <div className="grid grid-cols-2">
-                {weatherInfo && (
-                  <div className="order-1 w-96 relative  ">
-                    <div className="absolute -left-12 bottom-2 w-fit h-fit bg-slate-400  ">
-                    card
-                    {/* <img src="./rainy-6" className="h-48"/> */}
-                    {/* {(weatherInfo.weather[0].description.toLowerCase().includes("haze")) &&
-              (<img src="./rainy-6.svg" className="h-48"  alt="" />)} */}
-                    {/* THUNDERSTORM */}
+          <div className="grid row-span-3 rounded-lg  h-72 w-[29rem] relative">
+            {/* bg-yellow-300 w */}
+
+            <div className="grid grid-cols-2">
+              <br />
+              {weatherInfo && (
+                <div className="order-1 w-96 relative  ">
+                  <div className="absolute -left-12 bottom-2 w-fit h-fit">
+                    {/*bg-slate-400  w*/}
+                    
                     {thunderstorm.has(weatherInfo.weather[0].id) && (
-                      <img src="./thunder.svg" className="h-48" alt="" />
+                      <img src="./thunder.svg" className="h-72" alt="" />
                     )}
-                  {/* LIGHT RAIN */}
-                  {lightRain.has(weatherInfo.weather[0].id) && (
-                    <img src="./light-rain.svg" className="h-48" alt="" />
-                  )}
-                  {/* HEAVY RAIN */}
-                  {heavyRain.has(weatherInfo.weather[0].id) && (
-                    <img src="./heavy-rain.svg" className="h-48" alt="" />
-                  )}
-                  {/* CLEAR SKY */}
-                  {clearSky.has(weatherInfo.weather[0].id) && (
-                    <img src="./day.svg" className="h-72 " alt="" />
-                  )}
-                  {/* LIGHT SNOW */}
-                  {lightSnow.has(weatherInfo.weather[0].id) && (
-                    <img src="./light-snow.svg" className="h-48 " alt="" />
-                  )}
-                  {/* HEAVY SNOW */}
-                  {heavySnow.has(weatherInfo.weather[0].id) && (
-                    <img src="./heavy-snow.svg" className="h-48" alt="" />
-                  )}
-                  {/* CLOUDS */}
-                  {clouds.has(weatherInfo.weather[0].id) && (
-                    <img src="./cloudy.svg" className="h-48" alt="" />
-                  )}
+                    {/* LIGHT RAIN */}
+                    {lightRain.has(weatherInfo.weather[0].id) && (
+                      <img src="./light-rain.svg" className="h-72" alt="" />
+                    )}
+                    {/* HEAVY RAIN */}
+                    {heavyRain.has(weatherInfo.weather[0].id) && (
+                      <img src="./heavy-rain.svg" className="h-72" alt="" />
+                    )}
+                    {/* CLEAR SKY */}
+                    {clearSky.has(weatherInfo.weather[0].id) && (
+                      <img src="./day.svg" className="h-72 " alt="" />
+                    )}
+                    {/* LIGHT SNOW */}
+                    {lightSnow.has(weatherInfo.weather[0].id) && (
+                      <img src="./light-snow.svg" className="h-72 " alt="" />
+                    )}
+                    {/* HEAVY SNOW */}
+                    {heavySnow.has(weatherInfo.weather[0].id) && (
+                      <img src="./heavy-snow.svg" className="h-72" alt="" />
+                    )}
+                    {/* CLOUDS */}
+                    {clouds.has(weatherInfo.weather[0].id) && (
+                      <img src="./cloudy.svg" className="h-72" alt="" />
+                    )}
                   </div>
                 </div>
                 //Add a celcius parameter, if the temp is between 0 - 10C, it'll show frozen.svg despite of any code
               )}
-              <div className="col-span-1 order-2 flex justify-end shrink bg-blue-400 text-center rounded-lg">
+              <div className="w-max ">
+                {/* bg-blue-400 w */}
                 {weatherInfo ? (
-                  <div>
-                    <div className="bg-green-300 p-4 mt-5 mb-2 flex flex-grow">
-                      <p className="text-5xl"> {weatherInfo.main.temp}°C</p>
-                    </div>
-                    <div className="bg-slate-500 -ml-5 mb-3">
-                      <p>Description: {weatherInfo.weather[0].description}</p>
-                      <h2>{weatherInfo.name}</h2>
-                      {/* <p>Feels like : {weatherData.main.feels_like}°C</p> */}
-                      <p>Pressure : {weatherInfo.main.pressure}</p>
-                      <p>ID: {weatherInfo.weather[0].id}</p>
-                    </div>
-                    {/* <div className="bg-pink-200 flex justify-normal space-x-8 flex-row  h-fit -mt-2">
-                      <div className="">
-                        <img src="./humidity-50.png" className="h-7" />
-                        {weatherInfo.main.humidity + "%"}
-                        <p>humidity</p>
+                  <div className="col-span-1 order-2 flex justify-end shrink text-center rounded-lg w-60 text-xl absolute right-1 bottom-1">
+                    <div className="text-slate-300">
+                      <div className=" p-4 mt-5 mb-1 ">
+                        {/* bg-green-300 w */}
+                        <p className="text-8xl">
+                          {Math.round(weatherInfo.main.temp)}°C
+                        </p>
                       </div>
-                      <div className="">
-                        <img src="./wind.svg" className="h-8" alt="" />
-                        {weatherInfo.wind.speed}m/s
-                        <p> Wind Speed </p>
+                      <div className="-ml-5 mb-3 space-y-3">
+                        {/* bg-slate-500 w */}
+                        <p>{weatherInfo.weather[0].description}</p>
+                        <h2>{weatherInfo.name}</h2>
+                        {/* <p>Feels like : {weatherData.main.feels_like}°C</p> */}
+                        {/* <p>Pressure : {weatherInfo.main.pressure}</p> */}
+                        {/* <p>ID: {weatherInfo.weather[0].id}</p> */}
                       </div>
-                    </div> */}
-                    <div className="flex flex-grow mt-4 justify-between px-2 space-x-8">
-                      <div className="flex items-center">
-                        {/* Humidity Icon */}
-                        <img
-                          src="humidity-50.png"
-                          alt="Humidity Icon"
-                          className="h-6 w-6 mr-2"
-                        />
-                        <p className="text-md">{weatherInfo.main.humidity + "%"}</p>
+                     
+                      <div className="flex flex-grow mt-4 justify-between px-2 space-x-8 text-xl">
+                        <div className="flex items-center">
+                          {/* Humidity Icon */}
+                          <img
+                            src="humidity-50.png"
+                            alt="Humidity Icon"
+                            className="h-6 w-6 mr-2"
+                          />
+                          <p className="text-md">
+                            {weatherInfo.main.humidity + "%"}
+                          </p>
+                        </div>
+                        <div className="flex items-center">
+                          {/* Wind Speed Icon */}
+                          <img
+                            src="wind.svg"
+                            alt="Wind Speed Icon"
+                            className="h-6 w-6 mr-2"
+                          />
+                          <p className="text-md">
+                            {weatherInfo.wind.speed} m/s
+                          </p>
+                        </div>
                       </div>
-                      <div className="flex items-center">
-                        {/* Wind Speed Icon */}
-                        <img
-                          src="wind.svg"
-                          alt="Wind Speed Icon"
-                          className="h-6 w-6 mr-2"
-                        />
-                        <p className="text-md">{weatherInfo.wind.speed} m/s</p>
+                      <div className="flex items-center justify-between py-2 px-4 text-base">
+                        <p>Humidity</p>
+                        <p>Wind Speed</p>
                       </div>
-                    </div>
-                    <div className="flex items-center justify-between py-2 px-4 text-base">
-                      <p>Humidity</p>
-                      <p>Wind Speed</p>
                     </div>
                   </div>
                 ) : (
-                  <p>Loading..</p>
+                  <Loading />
                 )}
               </div>
             </div>

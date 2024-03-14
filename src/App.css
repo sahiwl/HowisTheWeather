@@ -2,6 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* body {
-    background-image: linear-gradient(to right, slateblue(0.8), royalblue);
-  } */
+body {
+  background: linear-gradient(to right, #042f2e, #44403c, #020617);
+  }

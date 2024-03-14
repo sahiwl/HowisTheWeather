@@ -8,7 +8,6 @@ function App() {
 
   return (
     <>
-    {/* write the below tailwind class in css in body tag  */}
       <div className="bg-gradient-to-r from-teal-950 via-slate-700 to-slate-950 h-screen w-screen flex justify-center items-center font-Quicksand">
         <WeatherApp />
       </div>
