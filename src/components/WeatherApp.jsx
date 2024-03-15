@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Loading from "./Loading";
+import {ToastContainer, toast} from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 const WeatherApp = () => {
   const [city, setCity] = useState("");
@@ -13,6 +15,8 @@ const WeatherApp = () => {
   });
   // console.log(currentTime);
   const fetchApiData = async () => {
+    const customId = 123;
+    const unwantedErr = 321;
     try {
       const res = await axios.get(
         `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`
@@ -20,30 +24,29 @@ const WeatherApp = () => {
       setWeatherInfo(res.data);
       console.log(res.data); //weather data
     } catch (error) {
-      if (error.response && error.response.status === 404) {
+      if (error.response.status === 404) {
         //catches 404 error
         console.clear(); //clears console if 404 status code error occurs
-        alert("Please enter a correct city/town 🌍");
+        toast.error("Please enter a correct city/town. Hint: There is a typo🤓" ,{
+          theme: "dark", toastId: customId
+        });
+      }
+      else{
+        toast.error(error.response.status +": Unwanted error, we're working on a fix." ,{
+          theme: "dark", toastId: unwantedErr
+        });
       }
       // console.log(error);
     }
   };
-  // const Weathericon = (()=>{
-  //   if(weatherInfo.weather[0].description == "broken clouds"){
-  //     return <div className="">
-  //       <img src="./rainy-4" className="h-48" alt="" />
-  //       console.log("logging");
-  //     </div>
-  //   }
-  // })
 
   const inputHandler = async (e) => {
     setCity(e.target.value);
   };
 
-  const submitHandler = (e) => {
+  const submitHandler = async (e) => {
     e.preventDefault();
-    fetchApiData(city);
+   await fetchApiData(city);
   };
 
   const lightRain = new Set([300, 301, 310, 500, 520]);
@@ -182,6 +185,7 @@ const WeatherApp = () => {
           </div>
         </div>
       </div>
+      <ToastContainer pauseOnFocusLoss={false} limit={1} autoClose={3500}/>
     </>
   );
 };
