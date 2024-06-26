@@ -64,10 +64,10 @@ const WeatherApp = () => {
 
   return (
     <>
-      <div className="rounded-lg backdrop-blur-3xl bg-white/5 h-auto w-full max-w-md mx-auto p-4">
+      <div className="rounded-lg backdrop-blur-3xl  bg-white/5 h-auto w-full max-w-md mx-auto p-4">
         <div className="flex flex-col justify-center items-center font-quicksand h-full space-y-4">
           <form onSubmit={submitHandler} className="w-full">
-            <div className="grid grid-cols-4">
+            <div className="grid grid-cols-4 ">
               <input
                 type="text"
                 placeholder="Enter a city/town"
@@ -127,46 +127,40 @@ const WeatherApp = () => {
                   )}
                 </div>
 
-                <div className="text-slate-300 text-center w-[300px]">
-                  <div className="mb-2">
+                <div className="text-slate-300 text-center w-[340px] ">
+                  <div className="mb-5">
                     <p className="text-4xl md:text-6xl">
                       {Math.round(weatherInfo.main.temp)}°C
                     </p>
                     <h2 className="text-2xl">{weatherInfo.name}</h2>
                   </div>
                   <div className="flex justify-between space-x-4">
-                    <div className="text-left flex-initial w-1/2">
-                      Feels like {weatherInfo.main.feels_like} °C
-                        <p>{weatherInfo.main.pressure} atm</p>
-                        <p className="">Min Temp: {weatherInfo.main.temp_min} °C</p>
+                    <div className="text-[17px] text-left flex-initial w-1/2 space-y-1">
+                      <p>Feels like {weatherInfo.main.feels_like} °C</p>
+                        <p>Pressure: {(weatherInfo.main.pressure)} hPa</p>
+                        <p className="">Min Temp: {weatherInfo.main.temp_min  }°C</p>
                     </div>
-                    <div className="text-right space-y-2 md:space-y-0">
+                    <div className="text-[17px] text-right space-y-1 md:space-y-0">
                       <p className="capitalize">
                         {weatherInfo.weather[0].description}
                       </p>
+                      <p>Cloud Cover: {weatherInfo.clouds.all}%</p>
                       <p className="">Max Temp: {weatherInfo.main.temp_max}°C</p>
                       <p>{weatherInfo.icon}</p>
                       {/* <img src=" https://openweathermap.org/img/wn/09d@4x.png" alt="" /> */}
                     </div>
                   </div>
-                  <div className="flex flex-col md:flex-row justify-around w-full mt-4 sm:space-x-0 lg:space-x-8 text-lg md:text-xl">
-                    <div className="flex items-center space-x-2 md:space-x-4">
-                      <img
-                        src="humidity-50.png"
-                        alt="Humidity Icon"
-                        className="h-6 w-6"
-                      />
-                      <p>{weatherInfo.main.humidity + "%"}</p>
-                    </div>
-                    <div className="flex items-center space-x-2 md:space-x-4">
-                      <img
-                        src="wind.svg"
-                        alt="Wind Speed Icon"
-                        className="h-6 w-6"
-                      />
-                      <p>{weatherInfo.wind.speed} m/s</p>
-                    </div>
-                  </div>
+                  <div className="flex flex-row w-full md:flex-row justify-around sm:flex-row sm:justify-between text-lg md:text-xl space-x-12 mt-3">
+  <div className=" flex items-center space-x-2 md:space-x-4">
+    <img src="humidity-50.png" alt="Humidity Icon" className="h-6 w-6" />
+    <p>{weatherInfo.main.humidity + "%"}</p>
+  </div>
+  <div className="flex items-center space-x-2 md:space-x-4">
+    <img src="wind.svg" alt="Wind Speed Icon" className="h-6 w-6" />
+    <p>{(weatherInfo.wind.speed*3.6).toFixed(2)} km/hr</p>
+  </div>
+</div>
+
                 </div>
               </div>
             ) : (
