@@ -13,7 +13,7 @@ const WeatherApp = () => {
     const customId = 123;
     const unwantedErr = 321;
     try {
-      const res = await axios.get(`http://localhost:5000/weather?city=${city}`);
+      const res = await axios.get(`https://weatherapp-backend-1eg6.onrender.com/weather?city=${city}`);
       setWeatherInfo(res.data);
       console.log(res.data); // weather data
     } catch (error) {

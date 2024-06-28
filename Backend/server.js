@@ -6,8 +6,6 @@ require('dotenv').config();
 
 const app = express();
 const port = process.env.PORT || 5000;
-// const apiKey = "2d847c5acf691e24dce70e0e25909f4a"
-// const city = "delhi"
 
 app.use(cors());
 
