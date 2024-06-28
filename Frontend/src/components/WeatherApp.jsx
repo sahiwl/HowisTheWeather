@@ -13,33 +13,25 @@ const WeatherApp = () => {
     const customId = 123;
     const unwantedErr = 321;
     try {
-      const res = await axios.get(
-        `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`
-      );
+      const res = await axios.get(`http://localhost:5000/weather?city=${city}`);
       setWeatherInfo(res.data);
-      console.log(res.data); //weather data
+      console.log(res.data); // weather data
     } catch (error) {
       if (error.response.status === 404) {
-        toast.error(
-          "Please enter a correct city/town. Hint: There is a typo🤓",
-          {
-            theme: "dark",
-            toastId: customId,
-          }
-        );
+        toast.error("Please enter a correct city/town. Hint: There is a typo🤓", {
+          theme: "dark",
+          toastId: customId,
+        });
       } else {
-        toast.error(
-          error.response.status + ": Unwanted error, we're working on a fix.",
-          {
-            theme: "dark",
-            toastId: unwantedErr,
-          }
-        );
+        toast.error(error.response.status + ": Unwanted error, we're working on a fix.", {
+          theme: "dark",
+          toastId: unwantedErr,
+        });
       }
     }
   };
 
-  const inputHandler = async (e) => {
+  const inputHandler = (e) => {
     setCity(e.target.value);
   };
 
@@ -137,8 +129,8 @@ const WeatherApp = () => {
                   <div className="flex justify-between space-x-4">
                     <div className="text-[17px] text-left flex-initial w-1/2 space-y-1">
                       <p>Feels like {weatherInfo.main.feels_like} °C</p>
-                        <p>Pressure: {(weatherInfo.main.pressure)} hPa</p>
-                        <p className="">Min Temp: {weatherInfo.main.temp_min  }°C</p>
+                      <p>Pressure: {(weatherInfo.main.pressure)} hPa</p>
+                      <p className="">Min Temp: {weatherInfo.main.temp_min}°C</p>
                     </div>
                     <div className="text-[17px] text-right space-y-1 md:space-y-0">
                       <p className="capitalize">
@@ -151,15 +143,15 @@ const WeatherApp = () => {
                     </div>
                   </div>
                   <div className="flex flex-row w-full md:flex-row justify-around sm:flex-row sm:justify-between text-lg md:text-xl space-x-12 mt-3">
-  <div className=" flex items-center space-x-2 md:space-x-4">
-    <img src="humidity-50.png" alt="Humidity Icon" className="h-6 w-6" />
-    <p>{weatherInfo.main.humidity + "%"}</p>
-  </div>
-  <div className="flex items-center space-x-2 md:space-x-4">
-    <img src="wind.svg" alt="Wind Speed Icon" className="h-6 w-6" />
-    <p>{(weatherInfo.wind.speed*3.6).toFixed(2)} km/hr</p>
-  </div>
-</div>
+                    <div className=" flex items-center space-x-2 md:space-x-4">
+                      <img src="humidity-50.png" alt="Humidity Icon" className="h-6 w-6" />
+                      <p>{weatherInfo.main.humidity + "%"}</p>
+                    </div>
+                    <div className="flex items-center space-x-2 md:space-x-4">
+                      <img src="wind.svg" alt="Wind Speed Icon" className="h-6 w-6" />
+                      <p>{(weatherInfo.wind.speed * 3.6).toFixed(2)} km/hr</p>
+                    </div>
+                  </div>
 
                 </div>
               </div>
