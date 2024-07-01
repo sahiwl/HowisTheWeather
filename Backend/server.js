@@ -9,6 +9,10 @@ const port = process.env.PORT || 5000;
 
 app.use(cors());
 
+app.get('/', (req, res) => {
+  res.send(`This is Sahil's weather app backend. Thank you!`)
+})
+
 app.get('/weather', async (req, res) => {
   const city = req.query.city;
   const apiKey = process.env.VITE_API_KEY;
