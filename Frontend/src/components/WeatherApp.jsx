@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import Loading from "./Loading";
+import Landing from "./Landing";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
 
 const WeatherApp = () => {
   const [city, setCity] = useState("");
   const [weatherInfo, setWeatherInfo] = useState(null);
-  const apiKey = import.meta.env.VITE_API_KEY;
 
   const fetchApiData = async () => {
     const customId = 123;
@@ -18,7 +18,7 @@ const WeatherApp = () => {
       console.log(res.data); // weather data
     } catch (error) {
       if (error.response.status === 404) {
-        toast.error("Please enter a correct city/town. Hint: There is a typo🤓", {
+        toast.error("Please enter a correct city/town. (Hint: There is a typo🏌️)", {
           theme: "dark",
           toastId: customId,
         });
@@ -56,8 +56,8 @@ const WeatherApp = () => {
 
   return (
     <>
-      <div className="rounded-lg backdrop-blur-3xl  bg-white/5 h-auto w-full max-w-md mx-auto p-4">
-        <div className="flex flex-col justify-center items-center font-quicksand h-full space-y-4">
+      <div className="rounded-lg backdrop-blur-3xl bg-white/5 h-auto w-full max-w-md mx-auto p-4">
+        <div className="flex flex-col justify-center items-center font-Quicksand h-full space-y-4">
           <form onSubmit={submitHandler} className="w-full">
             <div className="grid grid-cols-4 ">
               <input
@@ -139,7 +139,6 @@ const WeatherApp = () => {
                       <p>Cloud Cover: {weatherInfo.clouds.all}%</p>
                       <p className="">Max Temp: {weatherInfo.main.temp_max}°C</p>
                       <p>{weatherInfo.icon}</p>
-                      {/* <img src=" https://openweathermap.org/img/wn/09d@4x.png" alt="" /> */}
                     </div>
                   </div>
                   <div className="flex flex-row w-full md:flex-row justify-around sm:flex-row sm:justify-between text-lg md:text-xl space-x-12 mt-3">
@@ -152,16 +151,20 @@ const WeatherApp = () => {
                       <p>{(weatherInfo.wind.speed * 3.6).toFixed(2)} km/hr</p>
                     </div>
                   </div>
-
                 </div>
               </div>
             ) : (
-              <Loading />
+              <Landing />
             )}
           </div>
         </div>
       </div>
-
+      <div className="font-mono text-xl absolute bottom-0 bg-white/5 w-full flex justify-center">
+        <span>made by&nbsp;</span>
+        <a href="https://github.com/sahiwl" target="_blank" className="text-indigo-400 font-semibold">
+          &copy;Sahil
+        </a>
+      </div>
       <ToastContainer pauseOnFocusLoss={false} limit={1} autoClose={3500} />
     </>
   );

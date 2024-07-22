@@ -5,7 +5,9 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",],
   theme: {
     fontFamily: {
-      Quicksand: ["Quicksand", "normal"]
+      Quicksand: ["Quicksand", "normal"],
+      BungeeShade: ['Bungee Shade', 'system-ui'],
+      Inter: ['Inter Variable', 'sans-serif']
     }
   },
   plugins: [],
