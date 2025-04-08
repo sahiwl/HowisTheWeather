@@ -1,11 +1,30 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import './App.css'
 
 import WeatherApp from './components/WeatherApp'
-// import Test from './components/Test'
+import axios from 'axios'
+import Loading from './components/Loading'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [loading, setLoading] = useState(true)
+  const [data, setData] = useState(null)
+  
+  const be = import.meta.env.VITE_BE_URL
+  useEffect(()=>{
+    const fetch = async ()=>{
+      try {
+        const res = await axios.get(`http://localhost:3000`)
+        setData(res)
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }finally{
+        setLoading(false)
+      }
+    }
+    fetch()
+  }, [])
+
+  if(loading) return <Loading/>
 
   return (
     <>

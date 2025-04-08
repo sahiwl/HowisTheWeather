@@ -1,170 +1,165 @@
 import { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Landing from "./Landing";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-
 const WeatherApp = () => {
-  const [city, setCity] = useState("");
+  const { city: paramCity } = useParams();
+  const navigate = useNavigate();
+
+  const [city, setCity] = useState(paramCity || "");
   const [weatherInfo, setWeatherInfo] = useState(null);
 
-  const fetchApiData = async () => {
-    const customId = 123;
-    const unwantedErr = 321;
+  const fetchWeather = async (cityName) => {
+    const id = "weather-error";
     try {
-      const res = await axios.get(`https://weatherapp-backend-1eg6.onrender.com/weather?city=${city}`);
+
+      const res = await axios.get(`http://localhost:3000/weather/${encodeURIComponent(cityName)}`);
       setWeatherInfo(res.data);
-      console.log(res.data); // weather data
-    } catch (error) {
-      if (error.response.status === 404) {
-        toast.error("Please enter a correct city/town. (Hint: There is a typo🏌️)", {
-          theme: "dark",
-          toastId: customId,
-        });
-      } else {
-        toast.error(error.response.status + ": Unwanted error, we're working on a fix.", {
-          theme: "dark",
-          toastId: unwantedErr,
-        });
-      }
+    } catch (err) {
+      const status = err.response?.status;
+      const msg =
+        status === 404
+          ? "Please enter a correct city/town. (Hint: There is a typo 🏌️)"
+          : `${status || 500}: Unexpected error, we're working on it.`;
+      toast.error(msg, { theme: "dark", toastId: id });
     }
   };
 
-  const inputHandler = (e) => {
-    setCity(e.target.value);
+  const handleInput = (e) => setCity(e.target.value);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!city.trim()) return;
+    navigate(`/weather/${encodeURIComponent(city.trim())}`);
+    await fetchWeather(city.trim());
   };
 
-  const submitHandler = async (e) => {
-    e.preventDefault();
-    await fetchApiData(city);
-  };
+  useEffect(() => {
+    if (paramCity) {
+      setCity(paramCity);
+      fetchWeather(paramCity);
+    }
+  }, [paramCity]);
+
 
   const lightRain = new Set([300, 301, 310, 500, 520]);
-  const heavyRain = new Set([
-    302, 312, 313, 314, 321, 501, 502, 503, 504, 511, 521, 531,
-  ]);
+  const heavyRain = new Set([302, 312, 313, 314, 321, 501, 502, 503, 504, 511, 521, 531]);
   const lightSnow = new Set([600, 601, 611, 612, 613, 615, 620]);
   const heavySnow = new Set([602, 616, 621, 622]);
   const clearSky = new Set([800, 701, 711, 721]);
-  const clouds = new Set([
-    771, 762, 761, 751, 741, 731, 781, 801, 802, 803, 804,
-  ]);
-  const thunderstorm = new Set([
-    200, 201, 202, 210, 211, 212, 221, 230, 231, 232,
-  ]);
+  const clouds = new Set([771, 762, 761, 751, 741, 731, 781, 801, 802, 803, 804]);
+  const thunderstorm = new Set([200, 201, 202, 210, 211, 212, 221, 230, 231, 232]);
 
   return (
     <>
-      <div className="rounded-lg backdrop-blur-3xl bg-white/5 h-auto w-full max-w-md mx-auto p-4">
-        <div className="flex flex-col justify-center items-center font-Quicksand h-full space-y-4">
-          <form onSubmit={submitHandler} className="w-full">
-            <div className="grid grid-cols-4 ">
-              <input
-                type="text"
-                placeholder="Enter a city/town"
-                value={city}
-                onChange={inputHandler}
-                className="placeholder:text-gray-300 text-white px-4 py-3 rounded-l-lg focus:outline-none bg-white/5 backdrop-3xl col-span-3"
-              ></input>
-              <button
-                type="submit"
-                className="placeholder:text-gray-300 text-white px-4 py-3 rounded-r-lg bg-white/5 backdrop-3xl"
-              >
-                Search
-              </button>
-            </div>
+      <div className="bg-gradient-to-r from-teal-950 via-slate-700 to-slate-950 h-screen w-screen flex justify-center items-center font-Quicksand">
+        <div className="rounded-lg backdrop-blur-3xl bg-white/5 h-auto w-full max-w-md mx-auto p-4">
+          <form onSubmit={handleSubmit} className="grid grid-cols-4 w-full mb-4">
+            <input
+              type="text"
+              value={city}
+              onChange={handleInput}
+              placeholder="Enter a city/town"
+              className="col-span-3 px-4 py-3 rounded-l-lg bg-white/5 text-white placeholder:text-gray-300 focus:outline-none"
+            />
+            <button
+              type="submit"
+              className="px-4 py-3 bg-white/5 text-white rounded-r-lg"
+            >
+              Search
+            </button>
           </form>
 
-          <div className="w-full ">
-            {weatherInfo ? (
-              <div className="flex flex-col items-center">
-                <div className="relative">
-                  {thunderstorm.has(weatherInfo.weather[0].id) && (
-                    <img src="./thunder.svg" className="h-36 md:h-72" alt="" />
+          {weatherInfo ? (
+            <div className="text-slate-300 text-center">
+              <div className="relative flex justify-center ">
+              {thunderstorm.has(weatherInfo.weather[0].id) && (
+                    <img src="/thunder.svg" className="h-36 md:h-72" alt="" />
                   )}
                   {lightRain.has(weatherInfo.weather[0].id) && (
                     <img
-                      src="./light-rain.svg"
+                      src="/light-rain.svg"
                       className="h-36 md:h-60"
                       alt=""
                     />
                   )}
                   {heavyRain.has(weatherInfo.weather[0].id) && (
                     <img
-                      src="./heavy-rain.svg"
+                      src="/heavy-rain.svg"
                       className="h-36 md:h-60"
                       alt=""
                     />
                   )}
                   {clearSky.has(weatherInfo.weather[0].id) && (
-                    <img src="./day.svg" className="h-36 md:h-60" alt="" />
+                    <img src="/day.svg" className="h-36 md:h-60" alt="" />
                   )}
                   {lightSnow.has(weatherInfo.weather[0].id) && (
                     <img
-                      src="./light-snow.svg"
+                      src="/light-snow.svg"
                       className="h-36 md:h-60"
                       alt=""
                     />
                   )}
                   {heavySnow.has(weatherInfo.weather[0].id) && (
                     <img
-                      src="./heavy-snow.svg"
+                      src="/heavy-snow.svg"
                       className="h-36 md:h-60"
                       alt=""
                     />
                   )}
                   {clouds.has(weatherInfo.weather[0].id) && (
-                    <img src="./cloudy.svg" className="h-36 md:h-60" alt="" />
+                    <img src="/cloudy.svg" className="h-36 md:h-60" alt="" />
                   )}
-                </div>
+              </div>
 
-                <div className="text-slate-300 text-center w-[340px] ">
-                  <div className="mb-5">
-                    <p className="text-4xl md:text-6xl">
-                      {Math.round(weatherInfo.main.temp)}°C
-                    </p>
-                    <h2 className="text-2xl">{weatherInfo.name}</h2>
-                  </div>
-                  <div className="flex justify-between space-x-4">
-                    <div className="text-[17px] text-left flex-initial w-1/2 space-y-1">
-                      <p>Feels like {weatherInfo.main.feels_like} °C</p>
-                      <p>Pressure: {(weatherInfo.main.pressure)} hPa</p>
-                      <p className="">Min Temp: {weatherInfo.main.temp_min}°C</p>
-                    </div>
-                    <div className="text-[17px] text-right space-y-1 md:space-y-0">
-                      <p className="capitalize">
-                        {weatherInfo.weather[0].description}
-                      </p>
-                      <p>Cloud Cover: {weatherInfo.clouds.all}%</p>
-                      <p className="">Max Temp: {weatherInfo.main.temp_max}°C</p>
-                      <p>{weatherInfo.icon}</p>
-                    </div>
-                  </div>
-                  <div className="flex flex-row w-full md:flex-row justify-around sm:flex-row sm:justify-between text-lg md:text-xl space-x-12 mt-3">
-                    <div className=" flex items-center space-x-2 md:space-x-4">
-                      <img src="humidity-50.png" alt="Humidity Icon" className="h-6 w-6" />
-                      <p>{weatherInfo.main.humidity + "%"}</p>
-                    </div>
-                    <div className="flex items-center space-x-2 md:space-x-4">
-                      <img src="wind.svg" alt="Wind Speed Icon" className="h-6 w-6" />
-                      <p>{(weatherInfo.wind.speed * 3.6).toFixed(2)} km/hr</p>
-                    </div>
-                  </div>
+              <p className="text-4xl md:text-6xl">{Math.round(weatherInfo.main.temp)}°C</p>
+              <h2 className="text-2xl">{weatherInfo.name}</h2>
+
+              <div className="flex justify-between mt-4 text-sm">
+                <div className="space-y-1 text-left">
+                  <p>Feels like: {weatherInfo.main.feels_like}°C</p>
+                  <p>Pressure: {weatherInfo.main.pressure} hPa</p>
+                  <p>Min Temp: {weatherInfo.main.temp_min}°C</p>
+                </div>
+                <div className="space-y-1 text-right">
+                  <p className="capitalize">{weatherInfo.weather[0].description}</p>
+                  <p>Cloud Cover: {weatherInfo.clouds.all}%</p>
+                  <p>Max Temp: {weatherInfo.main.temp_max}°C</p>
                 </div>
               </div>
-            ) : (
-              <Landing />
-            )}
-          </div>
+
+              <div className="flex justify-between mt-4">
+                <div className="flex items-center space-x-2">
+                  <img src="/humidity-50.png" className="h-6 w-6" alt="humidity" />
+                  <p>{weatherInfo.main.humidity}%</p>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <img src="/wind.svg" className="h-6 w-6" alt="wind speed" />
+                  <p>{(weatherInfo.wind.speed * 3.6).toFixed(2)} km/hr</p>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <Landing />
+          )}
         </div>
       </div>
+
+
       <div className="font-mono text-xl absolute bottom-0 bg-white/5 w-full flex justify-center">
-        <span>made by&nbsp;</span>
-        <a href="https://github.com/sahiwl" target="_blank" className="text-indigo-400 font-semibold">
+        <span>made by </span>
+        <a
+          href="https://github.com/sahiwl"
+          target="_blank"
+          className="text-indigo-400 font-semibold ml-1"
+        >
           &copy;Sahil
         </a>
       </div>
+
       <ToastContainer pauseOnFocusLoss={false} limit={1} autoClose={3500} />
     </>
   );

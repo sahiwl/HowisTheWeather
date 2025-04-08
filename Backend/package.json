@@ -1,9 +1,11 @@
 {
   "name": "weatherapp",
   "version": "1.0.0",
-  "main": "server.js",
+  "main": "index.js",
+  "type": "module",
   "scripts": {
-    "start": "nodemon server.js"
+    "start": "node index.js",
+    "dev": "nodemon index.js"
   },
   "author": "Sahil Kumar Ray",
   "license": "ISC",
