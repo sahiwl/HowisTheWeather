@@ -6,7 +6,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Navbar from "./Navbar";
 
-const WeatherApp = () => {
+const Weather = () => {
   const { city: paramCity } = useParams();
   const navigate = useNavigate();
 
@@ -173,4 +173,4 @@ const WeatherApp = () => {
   );
 };
 
-export default WeatherApp;
+export default Weather;

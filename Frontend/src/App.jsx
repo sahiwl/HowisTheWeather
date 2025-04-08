@@ -1,10 +1,9 @@
 import { useEffect, useState } from 'react'
 import './App.css'
-
-import WeatherApp from './components/WeatherApp'
 import axios from 'axios'
 import Loading from './components/Loading'
 import Navbar from './components/Navbar'
+import Weather from './components/Weather'
 
 function App() {
   const [loading, setLoading] = useState(true)
@@ -31,7 +30,7 @@ function App() {
     <>
       <div className="bg-gradient-to-r from-teal-950 via-slate-700 to-slate-950 h-screen w-screen flex justify-center items-center font-Quicksand">
         <Navbar/>
-        <WeatherApp />
+        <Weather/>
       </div>
     </>
   )

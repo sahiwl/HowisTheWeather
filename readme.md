@@ -1,10 +1,10 @@
-# Hows the Weather? 
+# How is the Weather? 
 
 [![wakatime](https://wakatime.com/badge/user/018dc268-cd1f-405a-abd9-12f1bce09a2f/project/018e192c-a5f4-4bc9-bea6-4e4a2b797517.svg)](https://wakatime.com/badge/user/018dc268-cd1f-405a-abd9-12f1bce09a2f/project/018e192c-a5f4-4bc9-bea6-4e4a2b797517)
 
 A sleek, responsive weather application built with **React**, **TailwindCSS**, and **Express.js**, hosted on **Vercel**.
 
-🔗 Live App: [howstheweather.vercel.app](https://howstheweather.vercel.app)
+🔗 Live App: [howistheweather.vercel.app](https://howistheweather.vercel.app)
 
 ---
 
@@ -31,8 +31,8 @@ A sleek, responsive weather application built with **React**, **TailwindCSS**, a
 
 ### 1. Clone the repo
 ```bash
-git clone https://github.com/sahiwl/howstheweather.git
-cd howstheweather
+git clone https://github.com/sahiwl/howistheweather.git
+cd howistheweather
 ```
 
 ### 2. Install dependencies
