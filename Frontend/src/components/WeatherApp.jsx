@@ -4,6 +4,7 @@ import axios from "axios";
 import Landing from "./Landing";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Navbar from "./Navbar";
 
 const WeatherApp = () => {
   const { city: paramCity } = useParams();
@@ -59,6 +60,7 @@ const WeatherApp = () => {
   return (
     <>
       <div className="bg-gradient-to-r from-teal-950 via-slate-700 to-slate-950 h-screen w-screen flex justify-center items-center font-Quicksand">
+      <Navbar/>
         <div className="rounded-lg backdrop-blur-3xl bg-white/5 h-auto w-full max-w-md mx-auto p-4">
           <form onSubmit={handleSubmit} className="grid grid-cols-4 w-full mb-4">
             <input

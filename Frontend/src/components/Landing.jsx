@@ -11,7 +11,7 @@ const Landing = () => {
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2  p-4 rounded-lg text-center w-2/3 space-y-10 ">
           <p className="text-6xl pt-10">{currentTime.format(Date.now())}</p>
           <div className="font-BungeeShade text-3xl text-white-500">
-            <a href="https://github.com/sahiwl/weatherapp" target="_blank">How is the weather?</a>
+            {/* <a href="https://github.com/sahiwl/weatherapp" target="_blank">Hows the weather?</a> */}
           </div>
           <p className="text-lg">Check Weather by searching your city in search box </p>
         </div>
