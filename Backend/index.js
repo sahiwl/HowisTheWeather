@@ -3,7 +3,6 @@ import express from 'express';
 import axios from 'axios';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import ServerlessHttp from 'serverless-http';
 
 dotenv.config();
 
@@ -36,4 +35,3 @@ app.listen(port, () => {
 });
 
 // Export handler for Vercel
-export const handler = ServerlessHttp(app);
