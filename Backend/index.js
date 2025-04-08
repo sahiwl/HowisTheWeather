@@ -10,7 +10,7 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 app.use(cors({ origin: process.env.FE_URL }));
-console.log(process.env.FE_URL);
+// console.log(process.env.FE_URL);
 
 app.get('/', (req, res) => {
   res.send('OK');

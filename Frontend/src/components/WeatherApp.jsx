@@ -11,12 +11,15 @@ const WeatherApp = () => {
 
   const [city, setCity] = useState(paramCity || "");
   const [weatherInfo, setWeatherInfo] = useState(null);
-
+  const be = import.meta.env.VITE_BE_URL;
+  // console.log(be)
+  
   const fetchWeather = async (cityName) => {
     const id = "weather-error";
     try {
+      console.log("Calling API with city:", cityName);
+      const res = await axios.get(`${be}/weather/${encodeURIComponent(cityName)}`);
 
-      const res = await axios.get(`http://localhost:3000/weather/${encodeURIComponent(cityName)}`);
       setWeatherInfo(res.data);
     } catch (err) {
       const status = err.response?.status;
@@ -72,13 +75,16 @@ const WeatherApp = () => {
               Search
             </button>
           </form>
+          {/* {console.log("weatherInfo", weatherInfo)}
+{console.log("weatherInfo?.weather?.[0]?.id", weatherInfo?.weather?.[0]?.id)} */}
 
-          {weatherInfo ? (
+
+          {weatherInfo?.weather?.[0]?.id ? (
             <div className="text-slate-300 text-center">
               <div className="relative flex justify-center ">
               {thunderstorm.has(weatherInfo.weather[0].id) && (
-                    <img src="/thunder.svg" className="h-36 md:h-72" alt="" />
-                  )}
+  <img src="/thunder.svg" className="h-36 md:h-72" alt="" />
+)}
                   {lightRain.has(weatherInfo.weather[0].id) && (
                     <img
                       src="/light-rain.svg"

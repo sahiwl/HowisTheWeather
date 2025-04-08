@@ -13,12 +13,12 @@ function App() {
   useEffect(()=>{
     const fetch = async ()=>{
       try {
-        const res = await axios.get(`http://localhost:3000`)
+        const res = await axios.get(`${be}`)
         setData(res)
       } catch (error) {
         console.error("Error fetching data:", error);
       }finally{
-        setLoading(false)
+
       }
     }
     fetch()
